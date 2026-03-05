@@ -72,4 +72,4 @@ go build -o tanuki ./cmd/tanuki
 
 ## License
 
-MIT (or your choice) — demo use.
+MIT
