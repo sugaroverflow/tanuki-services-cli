@@ -53,12 +53,12 @@ jobs:
     environment: staging
     steps:
       - name: Download catalog
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           name: catalog
 
       - name: Download binary
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           name: tanuki-binary
 
@@ -75,7 +75,7 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Download catalog
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           name: catalog
 
