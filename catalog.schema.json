@@ -1,0 +1,53 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Service Manifest",
+  "description": "Schema for Tanuki service catalog entries",
+  "type": "object",
+  "required": ["name", "version", "owner", "team", "health_url", "repo_url"],
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Service identifier (e.g. payments-api)"
+    },
+    "version": {
+      "type": "string",
+      "description": "Current version or version spec"
+    },
+    "owner": {
+      "type": "string",
+      "description": "Primary owner or team lead"
+    },
+    "owners": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Optional list of additional owners"
+    },
+    "team": {
+      "type": "string",
+      "description": "Team name (e.g. platform, payments)"
+    },
+    "health_url": {
+      "type": "string",
+      "format": "uri",
+      "description": "Health/status endpoint URL"
+    },
+    "repo_url": {
+      "type": "string",
+      "format": "uri",
+      "description": "Source repository URL"
+    },
+    "on_call": {
+      "type": "string",
+      "description": "On-call contact or PagerDuty link"
+    },
+    "last_deploy": {
+      "type": "string",
+      "description": "Last deployment timestamp or ref"
+    },
+    "description": {
+      "type": "string",
+      "description": "Short service description"
+    }
+  },
+  "additionalProperties": false
+}

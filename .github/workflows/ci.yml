@@ -1,0 +1,100 @@
+# CI on every push: validate registry, test + build matrix, SAST.
+name: CI
+
+on:
+  push:
+    branches: ['**']
+  pull_request:
+    branches: ['**']
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Validate registry
+        run: python scripts/build_catalog.py --validate
+
+  test:
+    needs: validate
+    strategy:
+      fail-fast: false
+      matrix:
+        go: ['1.21']
+        os: [ubuntu-latest, macos-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Tanuki env
+        uses: ./.github/actions/setup-tanuki-env
+        with:
+          go-version: ${{ matrix.go }}
+
+      - name: Run tests
+        run: go test -v ./...
+
+  build:
+    needs: test
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: ubuntu-latest
+            goos: linux
+            goarch: amd64
+            suffix: ''
+          - os: macos-latest
+            goos: darwin
+            goarch: amd64
+            suffix: ''
+          - os: windows-latest
+            goos: windows
+            goarch: amd64
+            suffix: .exe
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Tanuki env
+        uses: ./.github/actions/setup-tanuki-env
+        with:
+          go-version: '1.21'
+
+      - name: Build binary
+        env:
+          GOOS: ${{ matrix.goos }}
+          GOARCH: ${{ matrix.goarch }}
+        run: go build -o tanuki-${{ matrix.goos }}-${{ matrix.goarch }}${{ matrix.suffix }} ./cmd/tanuki
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: tanuki-${{ matrix.goos }}-${{ matrix.goarch }}
+          path: tanuki-*
+
+  sast:
+    runs-on: ubuntu-latest
+    permissions:
+      security-events: write
+      actions: read
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v3
+        with:
+          languages: go
+
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v3

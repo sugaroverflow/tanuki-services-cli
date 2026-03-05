@@ -1,0 +1,9 @@
+name: search-api
+version: "4.0.1"
+owner: dave@example.com
+team: search
+health_url: https://search-api.example.com/status
+repo_url: https://github.com/example/search-api
+on_call: "#search-oncall"
+last_deploy: "2024-03-02T16:30:00Z"
+description: Full-text search and recommendations API

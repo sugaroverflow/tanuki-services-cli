@@ -1,0 +1,9 @@
+name: notifications-service
+version: "1.2.0"
+owner: carol@example.com
+team: platform
+health_url: https://notifications.example.com/health
+repo_url: https://github.com/example/notifications-service
+on_call: "#platform-oncall"
+last_deploy: "2024-03-03T11:00:00Z"
+description: Email, SMS, and push notification delivery

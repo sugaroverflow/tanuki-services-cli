@@ -1,0 +1,30 @@
+# Nightly: validate that all registry entries still resolve (health endpoints reachable).
+# Optional for demo — can be extended to GET health_url for each service.
+name: Nightly validate
+
+on:
+  schedule:
+    - cron: '0 2 * * *'  # 02:00 UTC daily
+  workflow_dispatch:
+
+jobs:
+  validate-registry:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Build catalog
+        run: python scripts/build_catalog.py -o dist/catalog.json
+
+      - name: Validate registry entries
+        run: |
+          echo "Registry built successfully. In production, add health_url checks here."
+          cat dist/catalog.json | python3 -c "import json,sys; d=json.load(sys.stdin); print(f'{len(d)} services in catalog')"

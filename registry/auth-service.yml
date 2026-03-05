@@ -1,0 +1,9 @@
+name: auth-service
+version: "1.5.2"
+owner: alice@example.com
+team: platform
+health_url: https://auth.example.com/status
+repo_url: https://github.com/example/auth-service
+on_call: "#platform-oncall"
+last_deploy: "2024-03-02T09:30:00Z"
+description: Authentication and authorization service

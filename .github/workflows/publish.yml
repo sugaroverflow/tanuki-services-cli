@@ -1,0 +1,100 @@
+# Publish on merge to main: build catalog, deploy staging, smoke-test, deploy production.
+name: Publish
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  build-catalog:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Build catalog
+        run: python scripts/build_catalog.py -o dist/catalog.json
+
+      - name: Upload catalog
+        uses: actions/upload-artifact@v4
+        with:
+          name: catalog
+          path: dist/catalog.json
+
+  build-binary:
+    needs: build-catalog
+    # For demo, runs on ubuntu-latest; use [self-hosted, release] for production.
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Tanuki env
+        uses: ./.github/actions/setup-tanuki-env
+
+      - name: Build Linux binary
+        run: go build -o tanuki-linux-amd64 ./cmd/tanuki
+
+      - name: Upload binary
+        uses: actions/upload-artifact@v4
+        with:
+          name: tanuki-binary
+          path: tanuki-linux-amd64
+
+  deploy-staging:
+    needs: [build-catalog, build-binary]
+    runs-on: ubuntu-latest
+    environment: staging
+    steps:
+      - name: Download catalog
+        uses: actions/download-artifact@v4
+        with:
+          name: catalog
+
+      - name: Download binary
+        uses: actions/download-artifact@v4
+        with:
+          name: tanuki-binary
+
+      - name: Staging deploy (demo)
+        run: |
+          echo "Staging: catalog and binary ready for Pages / staging URL"
+          mv catalog.json dist/catalog.json 2>/dev/null || true
+          ls -la
+
+  smoke-test:
+    needs: deploy-staging
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download catalog
+        uses: actions/download-artifact@v4
+        with:
+          name: catalog
+
+      - name: Setup Tanuki env
+        uses: ./.github/actions/setup-tanuki-env
+
+      - name: Build tanuki
+        run: go build -o tanuki ./cmd/tanuki
+
+      - name: Run tanuki list (smoke test)
+        run: |
+          # Catalog is in dist/ from build-catalog artifact
+          ./tanuki list
+          ./tanuki list | grep -q .
+
+  deploy-production:
+    needs: smoke-test
+    runs-on: ubuntu-latest
+    environment: production  # Requires manual approval in GitHub
+    steps:
+      - name: Production deploy (demo)
+        run: echo "Production deploy complete — catalog + binary to Pages / release"

@@ -1,0 +1,9 @@
+name: reporting-service
+version: "1.8.0"
+owner: eve@example.com
+team: analytics
+health_url: https://reporting.example.com/health
+repo_url: https://github.com/example/reporting-service
+on_call: "#analytics-oncall"
+last_deploy: "2024-02-29T14:00:00Z"
+description: Dashboards, reports, and export generation

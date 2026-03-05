@@ -1,0 +1,26 @@
+# Composite action: Go + cache + env for Tanuki CI/publish.
+name: 'Setup Tanuki environment'
+description: 'Install Go, cache modules, set up build env'
+inputs:
+  go-version:
+    description: 'Go version'
+    required: false
+    default: '1.21'
+runs:
+  using: 'composite'
+  steps:
+    - name: Set up Go
+      uses: actions/setup-go@v5
+      with:
+        go-version: ${{ inputs.go-version }}
+        cache-dependency-path: go.sum
+
+    - name: Cache Go modules
+      uses: actions/cache@v4
+      with:
+        path: |
+          ~/go/pkg/mod
+          ~/.cache/go-build
+        key: ${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}
+        restore-keys: |
+          ${{ runner.os }}-go-
