@@ -1,9 +1,9 @@
 name: data-pipeline
 version: "3.0.0"
-owner: bob@example.com
-team: platform
-health_url: https://pipeline.example.com/health
-repo_url: https://github.com/example/data-pipeline
+owner: daniel@tanuki-services.com
+team: architecture
+health_url: https://pipeline.tanuki-services.com/health
+repo_url: https://github.com/sugaroverflow/data-pipeline
 on_call: "#platform-oncall"
 last_deploy: "2024-02-28T16:00:00Z"
 description: ETL and data ingestion pipeline

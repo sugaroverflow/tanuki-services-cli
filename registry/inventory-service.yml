@@ -1,9 +1,9 @@
 name: inventory-service
 version: "2.0.0"
-owner: jane@example.com
+owner: john@tanuki-services.com
 team: payments
-health_url: https://inventory.example.com/health
-repo_url: https://github.com/example/inventory-service
+health_url: https://inventory.tanuki-services.com/health
+repo_url: https://github.com/sugaroverflow/inventory-service
 on_call: "#payments-oncall"
 last_deploy: "2024-03-03T08:00:00Z"
 description: Stock and inventory management for orders

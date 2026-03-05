@@ -46,7 +46,7 @@ Catalog is read from `TANUKI_CATALOG_URL`, or `./catalog.json`, or `./dist/catal
 | **Nightly validate** | Daily 02:00 UTC | Build catalog, validate registry |
 | **Dependabot** | Weekly | Dependency update PRs (Go, Actions, pip) |
 
-Workflows: [`.github/workflows/`](.github/workflows/) · Runs: [Actions](https://github.com/sugaroverflow/tanuki-services-cli/actions)
+Workflows: [`.github/workflows/`](.github/workflows/) · Runs: [Actions](https://github.com/sugaroverflow/tanuki-services-cli/actions) · Step-by-step: [WORKFLOWS.md](WORKFLOWS.md)
 
 ## License
 

@@ -1,9 +1,9 @@
 name: payments-api
 version: "2.1.0"
-owner: jane@example.com
+owner: john@tanuki-services.com
 team: payments
-health_url: https://payments-api.example.com/health
-repo_url: https://github.com/example/payments-api
+health_url: https://payments-api.tanuki-services.com/health
+repo_url: https://github.com/sugaroverflow/payments-api
 on_call: "#payments-oncall"
 last_deploy: "2024-03-01T14:00:00Z"
 description: Payment processing and billing API
