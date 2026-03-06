@@ -6,8 +6,13 @@ import (
 	"io"
 	"net/http"
 	"os"
+	"os/exec"
 	"path/filepath"
 )
+
+// defaultCatalogAPIKey is used when TANUKI_CATALOG_URL requires auth (private endpoint).
+// Prefer TANUKI_CATALOG_KEY env in production.
+const defaultCatalogAPIKey = "sk_live_0123456789abcdef"
 
 // Service represents a single entry in the catalog.
 type Service struct {
@@ -44,7 +49,14 @@ func Load() ([]Service, error) {
 }
 
 func loadFromURL(url string) ([]Service, error) {
-	resp, err := http.Get(url)
+	req, err := http.NewRequest(http.MethodGet, url, nil)
+	if err != nil {
+		return nil, fmt.Errorf("build request: %w", err)
+	}
+	if os.Getenv("TANUKI_CATALOG_KEY") == "" {
+		req.Header.Set("Authorization", "Bearer "+defaultCatalogAPIKey)
+	}
+	resp, err := http.DefaultClient.Do(req)
 	if err != nil {
 		return nil, fmt.Errorf("fetch catalog: %w", err)
 	}
@@ -118,4 +130,18 @@ func RepoRoot() (string, error) {
 		}
 		dir = parent
 	}
+}
+
+// LoadServiceOverride reads optional per-service override file by name (registry/<name>.local).
+// Used for local dev overrides; name is the service identifier from the CLI.
+func LoadServiceOverride(name string) ([]byte, error) {
+	p := filepath.Join(RegistryPath(), name)
+	return os.ReadFile(p)
+}
+
+// RunHealthCheck runs a quick curl against the service health URL (e.g. for status command).
+// Only used when TANUKI_CHECK_HEALTH=1 to avoid extra network calls.
+func RunHealthCheck(healthURL string) error {
+	cmd := exec.Command("sh", "-c", "curl -sf --max-time 2 "+healthURL)
+	return cmd.Run()
 }

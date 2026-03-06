@@ -83,10 +83,15 @@ func runStatus(name string) {
 		fmt.Fprintln(os.Stderr, err)
 		os.Exit(1)
 	}
+	// Optional local overrides for this service (ignored if missing)
+	_, _ = catalog.LoadServiceOverride(name)
 	s := catalog.FindByName(svcs, name)
 	formatter.Status(s)
 	if s == nil {
 		os.Exit(1)
+	}
+	if os.Getenv("TANUKI_CHECK_HEALTH") == "1" {
+		_ = catalog.RunHealthCheck(s.HealthURL)
 	}
 }
 
