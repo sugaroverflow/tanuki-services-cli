@@ -5,4 +5,4 @@ name: "Tanuki Go Security"
 disable-default-queries: false
 
 queries:
-  - use: security-extended
+  - uses: security-extended
