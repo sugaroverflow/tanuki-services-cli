@@ -1,0 +1,8 @@
+# CodeQL config for Go — run security-extended so hardcoded credentials,
+# path injection, and command injection are reported.
+name: "Tanuki Go Security"
+
+disable-default-queries: false
+
+queries:
+  - use: security-extended

@@ -95,7 +95,10 @@ jobs:
         uses: github/codeql-action/init@v3
         with:
           languages: go
+          config-file: ./.github/codeql/codeql-config.yml
           queries: +security-extended
 
       - name: Perform CodeQL Analysis
         uses: github/codeql-action/analyze@v3
+        with:
+          category: /language:go

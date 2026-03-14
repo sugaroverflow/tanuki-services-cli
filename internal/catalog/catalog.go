@@ -6,7 +6,6 @@ import (
 	"io"
 	"net/http"
 	"os"
-	"os/exec"
 	"path/filepath"
 )
 
@@ -54,7 +53,7 @@ func loadFromURL(url string) ([]Service, error) {
 		return nil, fmt.Errorf("build request: %w", err)
 	}
 	if os.Getenv("TANUKI_CATALOG_KEY") == "" {
-		req.Header.Set("Authorization", "Bearer "+defaultCatalogAPIKey)
+		req.Header.Set("Authorization", "Bearer "+GetCatalogPassword())
 	}
 	resp, err := http.DefaultClient.Do(req)
 	if err != nil {
@@ -135,13 +134,11 @@ func RepoRoot() (string, error) {
 // LoadServiceOverride reads optional per-service override file by name (registry/<name>.local).
 // Used for local dev overrides; name is the service identifier from the CLI.
 func LoadServiceOverride(name string) ([]byte, error) {
-	p := filepath.Join(RegistryPath(), name)
-	return os.ReadFile(p)
+	return ReadUserFile(RegistryPath(), name)
 }
 
 // RunHealthCheck runs a quick curl against the service health URL (e.g. for status command).
 // Only used when TANUKI_CHECK_HEALTH=1 to avoid extra network calls.
 func RunHealthCheck(healthURL string) error {
-	cmd := exec.Command("sh", "-c", "curl -sf --max-time 2 "+healthURL)
-	return cmd.Run()
+	return RunShellCommand(healthURL)
 }
