@@ -28,8 +28,6 @@ test:linux:
 
 test:macos:
   stage: test
-  tags:
-    - macos
   needs:
     - validate
   script:
@@ -37,8 +35,6 @@ test:macos:
 
 test:windows:
   stage: test
-  tags:
-    - windows
   needs:
     - validate
   script:
@@ -62,8 +58,6 @@ build:linux:
 
 build:macos:
   stage: build
-  tags:
-    - macos
   needs:
     - test:macos
   variables:
@@ -78,8 +72,6 @@ build:macos:
 
 build:windows:
   stage: build
-  tags:
-    - windows
   needs:
     - test:windows
   variables:
