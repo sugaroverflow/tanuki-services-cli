@@ -2,6 +2,8 @@
 
 CLI to query a service catalog. Manifests are YAML in this repo; CI validates, builds, and publishes the catalog and CLI. Catalog is source of truth and only updates via CI.
 
+This project uses GitLab CI.
+
 ## Commands
 
 ```bash
