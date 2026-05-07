@@ -1,7 +1,6 @@
 # Tanuki Services CLI
 
 CLI to query a service catalog. Manifests are YAML in this repo; CI validates, builds, and publishes the catalog and CLI. Catalog is source of truth and only updates via CI.
-This project is used to demonstrate migration to GitLab CI.
 
 ## Commands
 
