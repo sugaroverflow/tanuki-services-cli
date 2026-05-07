@@ -4,9 +4,9 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/example/tanuki/internal/catalog"
-	"github.com/example/tanuki/internal/formatter"
-	"github.com/example/tanuki/internal/schema"
+	"gitlab.com/gitlab-da/projects/tanuki-services/tanuki-services-cli/internal/catalog"
+	"gitlab.com/gitlab-da/projects/tanuki-services/tanuki-services-cli/internal/formatter"
+	"gitlab.com/gitlab-da/projects/tanuki-services/tanuki-services-cli/internal/schema"
 )
 
 func main() {

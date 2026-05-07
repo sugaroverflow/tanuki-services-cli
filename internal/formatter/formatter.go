@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/example/tanuki/internal/catalog"
+	"gitlab.com/gitlab-da/projects/tanuki-services/tanuki-services-cli/internal/catalog"
 )
 
 // List prints a table of services (name, version, team, owner).

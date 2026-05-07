@@ -3,7 +3,7 @@ package formatter
 import (
 	"testing"
 
-	"github.com/example/tanuki/internal/catalog"
+	"gitlab.com/gitlab-da/projects/tanuki-services/tanuki-services-cli/internal/catalog"
 )
 
 func TestListEmpty(t *testing.T) {
