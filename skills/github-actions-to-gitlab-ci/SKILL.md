@@ -85,6 +85,16 @@ Format the report as a markdown table the user can copy into their migration tra
 
 Before presenting the final translation, run the bundled validator against the GitLab CI Lint API. The validator catches mechanical errors before they reach the user: unknown keywords, malformed YAML, invalid `include:` references, invalid `extends:` chains, invalid `rules:` expressions.
 
+If the project includes Python validation steps, do not install dependencies into the system Python. On macOS and other externally managed Python environments, `python -m pip install -r requirements.txt` can fail with PEP 668 errors and distract from the migration task. Use a virtual environment for local validation instead:
+
+```bash
+python3 -m venv .venv
+. .venv/bin/activate
+python -m pip install -r requirements.txt
+```
+
+Only use this virtual environment for local validation. Do not let dependency setup issues replace the required final migration report, manual setup steps, improvements summary, and caveats.
+
 **Finding the script.** The script is at `scripts/validate.sh` inside the skill bundle. The path depends on the host tool:
 
 - **Claude Code**: use `${CLAUDE_SKILL_DIR}/scripts/validate.sh`
