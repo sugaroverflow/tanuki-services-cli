@@ -97,11 +97,20 @@ Only use this virtual environment for local validation. Do not let dependency se
 
 **Finding the script.** The script is at `scripts/validate.sh` inside the skill bundle. The path depends on the host tool:
 
+- **Duo CLI (project skill in repository)**: use `skills/github-actions-to-gitlab-ci/scripts/validate.sh`
+- **Duo CLI (user-level skill)**: use `<your-user-skills-dir>/github-actions-to-gitlab-ci/scripts/validate.sh`
+
 - **Claude Code**: use `${CLAUDE_SKILL_DIR}/scripts/validate.sh`
 - **opencode and other tools**: the skill is at one of the discovery paths (`~/.claude/skills/github-actions-to-gitlab-ci/`, `~/.config/opencode/skills/github-actions-to-gitlab-ci/`, `~/.agents/skills/github-actions-to-gitlab-ci/`, or a project-local equivalent). Locate the directory you loaded this skill from and append `/scripts/validate.sh`.
-- **Fallback**: if you cannot locate the bundled script, run `glab ci lint <path-to-file>` directly. The bundled script is a thin wrapper around exactly that command, with a curl-based fallback for environments without `glab`.
+- **Fallback**: if you cannot locate the bundled script, run `glab ci lint <path-to-file>` directly. The bundled script is a thin wrapper around that command, with a curl-based API fallback for environments without `glab`.
 
 **Running it.** Invoke via `bash` so the executable bit does not matter:
+
+```bash
+bash skills/github-actions-to-gitlab-ci/scripts/validate.sh /path/to/translated.gitlab-ci.yml
+```
+
+If the skill directory varies in the current environment, resolve `<skill-dir>` first and run:
 
 ```bash
 bash <skill-dir>/scripts/validate.sh /path/to/translated.gitlab-ci.yml
