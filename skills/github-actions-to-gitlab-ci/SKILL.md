@@ -152,16 +152,30 @@ Before producing the final translation, verify:
 - [ ] Did I flag items that need human review explicitly?
 - [ ] Did I suggest GitLab-only features that would improve the workflow (only where they apply)?
 
+## Mandatory pre-final checklist gate
+
+Before giving the final response to the user, stop and verify this checklist. Do not produce the final response until every applicable item is represented in the answer:
+
+- [ ] The translated `.gitlab-ci.yml` was created, updated, or shown.
+- [ ] The validation result is included, or a validation limitation is stated plainly.
+- [ ] A migration report is included as a markdown table with source item, category, GitLab equivalent, and notes.
+- [ ] Manual setup steps are included.
+- [ ] A suggested GitLab improvements summary is included, even if the summary says no meaningful improvements apply.
+- [ ] Honest caveats are included, especially approximations and items that need review.
+
+If any item is missing, add it before responding. This checklist is a required delivery gate, not optional guidance.
+
 ## Output format for the user
 
 When the translation is complete, structure your response as:
 
 1. **Brief overview** (1-2 sentences: workflow name, complexity, overall verdict)
 2. **The translated `.gitlab-ci.yml`** in a fenced code block, ready to copy
-3. **Migration report** (markdown table with source line, category, GitLab equivalent, notes)
-4. **Manual setup steps** (numbered list, e.g., "Configure CI/CD variable X", "Set schedule in CI/CD > Schedules")
-5. **Suggested GitLab improvements** (bulleted, optional, only if applicable)
-6. **Honest caveats** (any "needs review" items called out plainly)
+3. **Validation result** (GitLab CI lint result, local YAML validation result, or clear explanation if validation could not be run)
+4. **Migration report** (markdown table with source line, category, GitLab equivalent, notes)
+5. **Manual setup steps** (numbered list, e.g., "Configure CI/CD variable X", "Set schedule in CI/CD > Schedules")
+6. **Suggested GitLab improvements summary** (bulleted or table, include applied and optional improvements where relevant)
+7. **Honest caveats** (any "needs review" items called out plainly)
 
 ## Common translation patterns
 
