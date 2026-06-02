@@ -23,7 +23,7 @@ jobs:
         run: python scripts/build_catalog.py -o dist/catalog.json
 
       - name: Upload catalog
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: catalog
           path: dist/catalog.json
@@ -42,7 +42,7 @@ jobs:
         run: go build -o tanuki-linux-amd64 ./cmd/tanuki
 
       - name: Upload binary
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: tanuki-binary
           path: tanuki-linux-amd64
